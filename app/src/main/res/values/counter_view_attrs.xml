@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="CounterView">
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color|reference"/>
+        <attr name="charSpace" format="dimension"/>
+    </declare-styleable>
+</resources>
