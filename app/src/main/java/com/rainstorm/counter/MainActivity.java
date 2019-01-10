@@ -1,6 +1,5 @@
 package com.rainstorm.counter;
 
-import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
