@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.rainstorm.counter.R;
@@ -38,6 +39,7 @@ public class CounterView extends View{
     private float numberRectPaddingTopAndBottom;
     private Paint rectPaint;             //rect paint
     private Map<Integer, ValueAnimator> animatorMap = new HashMap<>();
+    private Map<Integer, Integer> previousNumberMap = new HashMap<>();
     private String text = "";
     private String oldText = "";
 
@@ -136,7 +138,20 @@ public class CounterView extends View{
                 textPaint.setTextSize(MathUtil.mul(textSize, (float) 0.8)); //make non-number character a little smaller
             }
             //draw text
-            canvas.drawText(text.substring(i, i + 1), startX, startY, textPaint);
+            if (animatorMap.containsKey(i)) {
+                float rollingY = startY;
+                int scope = 10;
+                if (null != previousNumberMap.get(i)) {
+                    scope = Math.abs(previousNumberMap.get(i) - Integer.parseInt(text.substring(i, i + 1)));
+                }
+                for (int j = 0; j <= scope; j++) {
+                    int rollingNumber = getRollingNumber(Integer.parseInt(text.substring(i, i + 1)), -j);
+                    canvas.drawText(rollingNumber + "", startX, rollingY, textPaint);
+                    rollingY += textSize;
+                }
+            } else {
+                canvas.drawText(text.substring(i, i + 1), startX, startY, textPaint);   
+            }
             //compute X-coordinate for the next character
             if (needDrawRect) {
                 startX = MathUtil.add(startRectX, MathUtil.add(rectSideLength, charSpace));
@@ -157,7 +172,7 @@ public class CounterView extends View{
     }
 
     /**
-     * set input string text
+     * handle input string text
      * 
      * @param inputText
      */
@@ -166,6 +181,18 @@ public class CounterView extends View{
             return;
         this.text = inputText;
         
+        //set animations
+        setAnimations(inputText);
+        //backup old numbers of oldText,and update oldText
+        backupTextInfo(inputText);
+    }
+
+    /**
+     * set animations
+     * 
+     * @param text
+     */
+    private void setAnimations(String text) {
         //clear old animations
         for (Map.Entry<Integer, ValueAnimator> entry : animatorMap.entrySet()) {
             entry.getValue().cancel();
@@ -173,19 +200,58 @@ public class CounterView extends View{
         animatorMap.clear();
 
         //add new animations
-        if (!TextUtils.isEmpty(oldText)
-                && (text.length() == oldText.length())
-                && text.substring(0, 1).equals(oldText.substring(0, 1))) {
-            for (int i = text.length() - 1; i >= 0; i--) {
-                if (!text.substring(i, i + 1).equals(oldText.substring(i, i + 1))) {
-                    ValueAnimator valueAnimator = ValueAnimator.ofFloat(1, 0).setDuration(500);
-                    valueAnimator.start();
-                    animatorMap.put(i, valueAnimator);
+        if (!TextUtils.isEmpty(oldText)) {
+            if ((text.length() == oldText.length()) && text.substring(0, 1).equals(oldText.substring(0, 1))) {
+                for (int i = text.length() - 1; i >= 0; i--) {
+                    if (!text.substring(i, i + 1).equals(oldText.substring(i, i + 1))) {
+                        ValueAnimator valueAnimator = ValueAnimator.ofFloat(1, 0).setDuration(500);
+                        valueAnimator.start();
+                        animatorMap.put(i, valueAnimator);
+                    }
+                }
+            } else if (text.length() != oldText.length()) {
+                for (int i = text.length() - 1; i >= 0; i--) {
+                    if (Character.isDigit(text.charAt(i))) {
+                        ValueAnimator valueAnimator = ValueAnimator.ofFloat(1, 0).setDuration(500);
+                        valueAnimator.start();
+                        animatorMap.put(i, valueAnimator);
+                    }
                 }
             }
         }
         invalidate();
-        
+    }
+
+    /**
+     * backup old numbers of oldText,and update oldText
+     * 
+     * @param text
+     */
+    private void backupTextInfo(String text) {
+        for (int j = 0; j < oldText.length(); j++) {
+            if (Character.isDigit(oldText.charAt(j))) {
+                previousNumberMap.put(j, Integer.parseInt(oldText.substring(j, j + 1)));
+            }
+        }
         oldText = text;
+    }
+    
+    /**
+     * Get a number on the rolling path
+     * 
+     * @param number
+     * @param position
+     * @return result must be a positive number
+     */
+    private int getRollingNumber(int number, int position) {
+        int result = 0;
+        if (number + position > 9) {
+            result = number + position - 10;
+        } else if (number + position < 0) {
+            result = number + position + 10;
+        } else {
+            result = number + position;
+        }
+        return result;
     }
 }
