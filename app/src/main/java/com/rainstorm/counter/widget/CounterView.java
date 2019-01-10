@@ -138,6 +138,9 @@ public class CounterView extends View{
                 int scope = 3;
                 if (null != previousNumberMap.get(i)) {
                     scope = Math.abs(previousNumberMap.get(i) - Integer.parseInt(text.substring(i, i + 1)));
+                    if (scope > 5) {
+                        scope = 5;
+                    }
                 }
                 for (int j = 0; j <= scope; j++) {
                     int rollingNumber = getRollingNumber(Integer.parseInt(text.substring(i, i + 1)), -j);
