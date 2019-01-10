@@ -111,16 +111,6 @@ public class CounterView extends View{
         for (int i = 0; i < text.length(); i++) {
             textPaint.setTextSize(textSize);
             charWidth = textPaint.measureText(text.substring(i, i + 1));
-            //measure Y-coordinate of a number character who has animation which means need to be changed
-            if (animatorMap.containsKey(i)) {
-                float progress = (float) animatorMap.get(i).getAnimatedValue();
-                if (progress > 0) {
-                    float offsetY = MathUtil.mul(textSize, progress);
-                    startY = MathUtil.sub(MathUtil.sub(textSize, textHeight / 2), offsetY);
-                }
-            } else {
-                startY = baseY;
-            }
             //draw rect for number character
             boolean needDrawRect = false;
             float rectSideLength = textSize > charWidth ? textSize : charWidth;
@@ -139,6 +129,11 @@ public class CounterView extends View{
             }
             //draw text
             if (animatorMap.containsKey(i)) {
+                float progress = (float) animatorMap.get(i).getAnimatedValue();
+                if (progress > 0) {
+                    float offsetY = MathUtil.mul(textSize, progress);
+                    startY = MathUtil.sub(MathUtil.sub(textSize, textHeight / 2), offsetY);
+                }
                 float rollingY = startY;
                 int scope = 10;
                 if (null != previousNumberMap.get(i)) {
@@ -150,6 +145,7 @@ public class CounterView extends View{
                     rollingY += textSize;
                 }
             } else {
+                startY = baseY;
                 canvas.drawText(text.substring(i, i + 1), startX, startY, textPaint);   
             }
             //compute X-coordinate for the next character
