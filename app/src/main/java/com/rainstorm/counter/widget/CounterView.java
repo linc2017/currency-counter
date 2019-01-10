@@ -135,7 +135,7 @@ public class CounterView extends View{
                     startY = MathUtil.sub(MathUtil.sub(textSize, textHeight / 2), offsetY);
                 }
                 float rollingY = startY;
-                int scope = 10;
+                int scope = 3;
                 if (null != previousNumberMap.get(i)) {
                     scope = Math.abs(previousNumberMap.get(i) - Integer.parseInt(text.substring(i, i + 1)));
                 }
