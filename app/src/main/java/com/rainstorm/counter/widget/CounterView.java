@@ -102,9 +102,9 @@ public class CounterView extends View{
         super.onDraw(canvas);
         if(TextUtils.isEmpty(text))
             return;
-        float startX = 50;
+        float startX = 50; //X-coordinate
         float baseY = MathUtil.sub(textSize, MathUtil.sub(textBottom, textHeight));
-        float startY = baseY;
+        float startY = baseY; //Y-coordinate
 
         for (int i = 0; i < text.length(); i++) {
             textPaint.setTextSize(textSize);
@@ -137,13 +137,14 @@ public class CounterView extends View{
             }
             //draw text
             canvas.drawText(text.substring(i, i + 1), startX, startY, textPaint);
+            //compute X-coordinate for the next character
             if (needDrawRect) {
                 startX = MathUtil.add(startRectX, MathUtil.add(rectSideLength, charSpace));
             } else {
                 startX = MathUtil.add(startX, MathUtil.add(charWidth, charSpace));   
             }
         }
-        //invalidate animation
+        //invalidate animations
         boolean end = true;
         for (Map.Entry<Integer, ValueAnimator> entry : animatorMap.entrySet()) {
             if (entry.getValue().isRunning()) {
