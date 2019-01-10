@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
         //init currency count view
         counterView = findViewById(R.id.counter_view);
         //start to count currency
-        startCount();
+        startCountingCurrency();
     }
 
     /**
      * start to count currency
      */
-    private void startCount() {
+    private void startCountingCurrency() {
         counterView.setText("$" + decimalFormat.format(amount));
         
         handler.postDelayed(new Runnable() {
