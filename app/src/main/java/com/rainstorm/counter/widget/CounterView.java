@@ -236,7 +236,7 @@ public class CounterView extends View{
     }
     
     /**
-     * Get a number on the rolling path
+     * get a number on the rolling path
      * 
      * @param number
      * @param position
