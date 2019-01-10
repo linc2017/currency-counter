@@ -110,8 +110,9 @@ public class CounterView extends View{
         float startY = baseY;
 
         for (int i = 0; i < text.length(); i++) {
+            textPaint.setTextSize(textSize);
             charWidth = textPaint.measureText(text.substring(i, i + 1));
-            //measure number character who has animation which means need to be changed
+            //measure Y-coordinate of a number character who has animation which means need to be changed
             if (animatorMap.containsKey(i)) {
                 float progress = (float) animatorMap.get(i).getAnimatedValue();
                 if (progress > 0) {
@@ -129,12 +130,13 @@ public class CounterView extends View{
                 needDrawRect = true;
                 float left = startX;
                 float top = Math.abs(numberRectPaddingTopAndBottom / 2);
-                //float right = MathUtil.add(MathUtil.add(startX, charWidth), charSpace) + 1;
                 float right = MathUtil.add(startX, Math.abs(rectSideLength)) + 1;
                 float bottom = MathUtil.add(baseY, Math.abs(numberRectPaddingTopAndBottom / 2)) + 1;
                 RectF rect = new RectF(left, top, right, bottom);
                 canvas.drawRect(rect,rectPaint);
                 startX = MathUtil.add(startX, Math.abs(MathUtil.sub(rectSideLength, charWidth) / 2));
+            } else {
+                textPaint.setTextSize(MathUtil.mul(textSize, (float) 0.8)); //make non-number character a little smaller
             }
             //draw text
             canvas.drawText(text.substring(i, i + 1), startX, startY, textPaint);
@@ -154,7 +156,6 @@ public class CounterView extends View{
         if (!end) {
             invalidate();
         }
-
     }
 
     /**
