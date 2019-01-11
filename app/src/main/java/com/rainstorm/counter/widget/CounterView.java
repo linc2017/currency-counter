@@ -129,19 +129,20 @@ public class CounterView extends View{
             }
             //draw text
             if (animatorMap.containsKey(i)) {
-                float progress = (float) animatorMap.get(i).getAnimatedValue();
-                if (progress > 0) {
-                    float offsetY = MathUtil.mul(textSize, progress);
-                    startY = MathUtil.sub(MathUtil.sub(textSize, textHeight / 2), offsetY);
-                }
-                float rollingY = startY;
-                int scope = 3;
+                //if we change from 1 to 6,scope = 6 - 1,means we will scroll from 1 to 6
+                int scope = 5;
                 if (null != previousNumberMap.get(i)) {
                     scope = Math.abs(previousNumberMap.get(i) - Integer.parseInt(text.substring(i, i + 1)));
                     if (scope > 5) {
                         scope = 5;
                     }
                 }
+                float progress = (float) animatorMap.get(i).getAnimatedValue();
+                if (progress > 0) {
+                    float offsetY = MathUtil.mul(textSize * scope, progress);
+                    startY = MathUtil.sub(MathUtil.sub(textSize, textHeight / 2), offsetY);
+                }
+                float rollingY = startY;
                 for (int j = 0; j <= scope; j++) {
                     int rollingNumber = getRollingNumber(Integer.parseInt(text.substring(i, i + 1)), -j);
                     canvas.drawText(rollingNumber + "", startX, rollingY, textPaint);
