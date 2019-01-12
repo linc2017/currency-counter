@@ -51,8 +51,8 @@ public class MathUtil {
     /**
      * Float mul
      * 
-     * @param v1
-     * @param v2
+     * @param v1 The first value
+     * @param v2 The second value
      * @return v1 * v2
      */
     public static float mul(Float v1,Float v2){
