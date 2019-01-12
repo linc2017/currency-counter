@@ -59,6 +59,8 @@ public class CounterView extends View{
     }
     
     private void init(AttributeSet attrs, int defStyle) {
+        //If we want make this class library,we can offer more attributes,
+        //also we could offer a few public getter/setter functions,etc.
         final TypedArray a = getContext().obtainStyledAttributes(
                 attrs, R.styleable.CounterView, defStyle, 0);
         textSize = a.getDimension(
