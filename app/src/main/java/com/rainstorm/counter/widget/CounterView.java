@@ -228,6 +228,7 @@ public class CounterView extends View{
      * @param text
      */
     private void backupTextInfo(String text) {
+        previousNumberMap.clear();
         for (int j = 0; j < oldText.length(); j++) {
             if (Character.isDigit(oldText.charAt(j))) {
                 previousNumberMap.put(j, Integer.parseInt(oldText.substring(j, j + 1)));
