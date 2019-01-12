@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
- * @description main launcher activity
+ * @description Main launcher activity
  * @author liys
  */
 public class MainActivity extends AppCompatActivity {
@@ -27,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        // init currency count view
+        // Init currency count view
         counterView = findViewById(R.id.counter_view);
-        // start to count currency
+        // Start to count currency
         startCountingCurrency();
     }
 
     /**
-     * start to count currency
+     * Start to count currency
      */
     private void startCountingCurrency() {
         counterView.setText("$" + decimalFormat.format(amount));
@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // compute amount increase
+                // Compute amount increase
                 amount = MathUtil.add(amount, 0.09);
                 countForRandom++;
                 if (countForRandom >= 10) {
                     countForRandom = 0;
                     amount = MathUtil.add(amount, new Random().nextInt(10000 + 1 + 10000) -10000);
                 }
-                // set amount text
+                // Set amount text
                 if (amount > 0) {
                     counterView.setText("$" + decimalFormat.format(amount));
                 } else {

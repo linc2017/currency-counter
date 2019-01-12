@@ -24,20 +24,20 @@ import java.util.Map;
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 
 /**
- * @description currency counter view
+ * @description Currency counter view
  * @author liys
  */
 public class CounterView extends View{
-    private TextPaint textPaint;           // text paint
-    private float textHeight;             // text height
-    private float textSize = 0;           // text size
-    private int textColor = Color.BLACK; // text color
-    private float charSpace;             // character space
-    private float charWidth;             // character width
+    private TextPaint textPaint;           // Text paint
+    private float textHeight;             // Text height
+    private float textSize = 0;           // Text size
+    private int textColor = Color.BLACK; // Text color
+    private float charSpace;             // Character space
+    private float charWidth;             // Character width
     private float textTop;
     private float textBottom;
     private float numberRectPaddingTopAndBottom;
-    private Paint rectPaint;             // rect paint
+    private Paint rectPaint;             // Rect paint
     private Map<Integer, ValueAnimator> animatorMap = new HashMap<>();
     private Map<Integer, Integer> previousNumberMap = new HashMap<>();
     private String text = "";
@@ -73,7 +73,7 @@ public class CounterView extends View{
                 R.styleable.CounterView_charSpace,
                 charSpace);
         a.recycle();
-        // init text paint
+        // Init text paint
         textPaint = new TextPaint(ANTI_ALIAS_FLAG);
         textPaint.setTextSize(textSize);
         textPaint.setColor(textColor);
@@ -85,7 +85,7 @@ public class CounterView extends View{
         textBottom = fontMetrics.bottom;
         numberRectPaddingTopAndBottom = MathUtil.add(Math.abs(MathUtil.sub(textTop, fontMetrics.ascent)), 
                 Math.abs(MathUtil.sub(textBottom, textHeight)));
-        // init rect paint
+        // Init rect paint
         rectPaint = new Paint(ANTI_ALIAS_FLAG);
         rectPaint.setStyle(Paint.Style.STROKE);
         rectPaint.setStrokeWidth(1);
@@ -114,7 +114,7 @@ public class CounterView extends View{
         for (int i = 0; i < text.length(); i++) {
             textPaint.setTextSize(textSize);
             charWidth = textPaint.measureText(text.substring(i, i + 1));
-            // draw rect for number character
+            // Draw rect for number character
             boolean needDrawRect = false;
             float rectSideLength = textSize > charWidth ? textSize : charWidth;
             float startRectX = startX;
@@ -128,11 +128,12 @@ public class CounterView extends View{
                 canvas.drawRect(rect,rectPaint);
                 startX = MathUtil.add(startX, Math.abs(MathUtil.sub(rectSideLength, charWidth) / 2));
             } else {
-                textPaint.setTextSize(MathUtil.mul(textSize, (float) 0.8)); // make non-number character a little smaller
+                // make non-number character a little smaller
+                textPaint.setTextSize(MathUtil.mul(textSize, (float) 0.8));
             }
-            // draw text
+            // Draw text
             if (animatorMap.containsKey(i)) {
-                // if we change from 1 to 6,scope = 6 - 1,means we will scroll from 1 to 6,
+                // If we change from 1 to 6,scope = 6 - 1,means we will scroll from 1 to 6,
                 // and I think animations would perform better if the scope less than 5.
                 int scope = 5;
                 if (previousNumberMap.containsKey(i)) {
@@ -156,14 +157,14 @@ public class CounterView extends View{
                 startY = baseY;
                 canvas.drawText(text.substring(i, i + 1), startX, startY, textPaint);   
             }
-            // compute X-coordinate for the next character
+            // Compute X-coordinate for the next character
             if (needDrawRect) {
                 startX = MathUtil.add(startRectX, MathUtil.add(rectSideLength, charSpace));
             } else {
                 startX = MathUtil.add(startX, MathUtil.add(charWidth, charSpace));   
             }
         }
-        // invalidate animations
+        // Invalidate animations
         boolean end = true;
         for (Map.Entry<Integer, ValueAnimator> entry : animatorMap.entrySet()) {
             if (entry.getValue().isRunning()) {
@@ -176,7 +177,7 @@ public class CounterView extends View{
     }
 
     /**
-     * handle input string text
+     * Handle input string text
      * 
      * @param inputText
      */
@@ -185,25 +186,25 @@ public class CounterView extends View{
             return;
         this.text = inputText;
         
-        // set animations
+        // Set animations
         setAnimations(inputText);
-        // backup old numbers of oldText,and update oldText
+        // Backup old numbers of oldText,and update oldText
         backupTextInfo(inputText);
     }
 
     /**
-     * set animations
+     * Set animations
      * 
      * @param text
      */
     private void setAnimations(String text) {
-        // clear old animations
+        // Clear old animations
         for (Map.Entry<Integer, ValueAnimator> entry : animatorMap.entrySet()) {
             entry.getValue().cancel();
         }
         animatorMap.clear();
 
-        // add new animations
+        // Add new animations
         if (!TextUtils.isEmpty(oldText)) {
             if ((text.length() == oldText.length()) && text.substring(0, 1).equals(oldText.substring(0, 1))) {
                 for (int i = text.length() - 1; i >= 0; i--) {
@@ -227,7 +228,7 @@ public class CounterView extends View{
     }
 
     /**
-     * backup old numbers of oldText,and update oldText
+     * Backup old numbers of oldText,and update oldText
      * 
      * @param text
      */
@@ -242,11 +243,11 @@ public class CounterView extends View{
     }
     
     /**
-     * get a number on the rolling path
+     * Get a number on the rolling path
      * 
      * @param number
      * @param position
-     * @return result must be a positive number
+     * @return result Must be a positive number
      */
     private int getRollingNumber(int number, int position) {
         int result = 0;

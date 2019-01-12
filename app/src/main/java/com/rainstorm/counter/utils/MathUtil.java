@@ -3,17 +3,17 @@ package com.rainstorm.counter.utils;
 import java.math.BigDecimal;
 
 /**
- * @description math util
+ * @description Math util
  * @author liys
  */
 
 public class MathUtil {
 
     /**
-     * double add
+     * Double add
      * 
-     * @param v1 the first value
-     * @param v2 the second value
+     * @param v1 The first value
+     * @param v2 The second value
      * @return v1 + v2
      */
     public static double add(double v1, double v2){
@@ -23,10 +23,10 @@ public class MathUtil {
     }
 
     /**
-     * float add
+     * Float add
      *
-     * @param v1 the first value
-     * @param v2 the second value
+     * @param v1 The first value
+     * @param v2 The second value
      * @return v1 + v2
      */
     public static float add(float v1, float v2){
@@ -36,10 +36,10 @@ public class MathUtil {
     }
 
     /**
-     * float sub
+     * Float sub
      * 
-     * @param v1 the first value
-     * @param v2 the second value
+     * @param v1 The first value
+     * @param v2 The second value
      * @return v1 - v2
      */
     public static float sub(float v1,float v2){
@@ -49,7 +49,7 @@ public class MathUtil {
     }
 
     /**
-     * float mul
+     * Float mul
      * 
      * @param v1
      * @param v2
