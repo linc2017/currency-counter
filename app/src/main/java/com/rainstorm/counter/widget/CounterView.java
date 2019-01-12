@@ -135,12 +135,9 @@ public class CounterView extends View{
             if (animatorMap.containsKey(i)) {
                 // If we change from 1 to 6,scope = 6 - 1,means we will scroll from 1 to 6,
                 // and I think animations would perform better if the scope less than 5.
-                int scope = 5;
+                int scope = 9;
                 if (previousNumberMap.containsKey(i)) {
                     scope = Math.abs(previousNumberMap.get(i) - Integer.parseInt(text.substring(i, i + 1)));
-                    if (scope > 5) {
-                        scope = 5;
-                    }
                 }
                 float progress = (float) animatorMap.get(i).getAnimatedValue();
                 if (progress > 0) {
