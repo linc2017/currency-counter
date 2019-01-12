@@ -128,7 +128,7 @@ public class CounterView extends View{
                 canvas.drawRect(rect,rectPaint);
                 startX = MathUtil.add(startX, Math.abs(MathUtil.sub(rectSideLength, charWidth) / 2));
             } else {
-                // make non-number character a little smaller
+                // Make non-number character a little smaller
                 textPaint.setTextSize(MathUtil.mul(textSize, (float) 0.8));
             }
             // Draw text
