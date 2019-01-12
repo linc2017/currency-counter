@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        //init currency count view
+        // init currency count view
         counterView = findViewById(R.id.counter_view);
-        //start to count currency
+        // start to count currency
         startCountingCurrency();
     }
 
@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //compute amount increase
+                // compute amount increase
                 amount = MathUtil.add(amount, 0.09);
                 countForRandom++;
                 if (countForRandom >= 10) {
                     countForRandom = 0;
                     amount = MathUtil.add(amount, new Random().nextInt(10000 + 1 + 10000) -10000);
                 }
-                //set amount text
+                // set amount text
                 if (amount > 0) {
                     counterView.setText("$" + decimalFormat.format(amount));
                 } else {
