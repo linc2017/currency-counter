@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
- * @description Main launcher activity
+ * @description Main activity
  * @author liys
  */
 public class MainActivity extends AppCompatActivity {
